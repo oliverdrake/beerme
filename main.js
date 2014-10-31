@@ -1,3 +1,6 @@
+
+
+
 if (Meteor.isClient) {
   Beers = new Meteor.Collection("beers", {
     transform: function(beer) {
@@ -71,35 +74,6 @@ if (Meteor.isClient) {
   });
   /* End of beers list */
 
-  /*
-   * Establishments (bar, brewpub, bottlestore) list
-   */
-  Template.sidebar.establishments = function () {
-    return Establishments.find().fetch();
-  };
-
-  Template.sidebar.selected = function () {
-    return Session.equals('selected_establishment_id', this._id) ? 'selected' : '';
-  };
-
-  Template.sidebar.events({
-    'click .add' : function () {
-      var name = $("input[name='bar']").val();
-      if (!Establishments.findOne({"name": name})){
-        Establishments.insert({
-          "name": name,
-          "beers": [],
-        })
-      }
-    },
-    'click .remove' : function () {
-      Establishments.remove(this._id);
-    },
-    'click .establishment' : function () {
-      Session.set('selected_establishment_id', this._id);
-    }
-  });
-  /* End of establishments */
 }
 
 if (Meteor.isServer) {
