@@ -1,0 +1,111 @@
+<head>
+  <title>aegir</title>
+</head>
+
+<body>
+
+<div class="container" id="main">
+  <div class="row-fluid">
+    <div class="col-md-2">
+      {{> sidebar}}
+    </div>
+    <div class="col-md-10">
+      {{> beers}}
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+
+<template name="sidebar">
+<div class="container" id="side-pane">
+
+  {{#each establishments}}
+  <div class="row-fluid {{selected}} establishment">
+    <div class="col-md-4" style="vertical-align: middle;">
+      <input type="button" class="btn btn-mini btn-danger remove"
+      style="vertical-align: middle;" value="x"/>
+    </div>
+    <div class="col-md-8">
+      {{name}}
+    </div>
+  </div>
+  {{/each}}
+
+  <div class="row-fluid" style="width: auto;">
+    <div  id="createbar">
+      <input type="text" name="bar" placeholder="Bar" value=""/>
+    </div>
+    <div>
+      <input type="button" class="btn btn-mini btn-primary add" value="+"/>
+    </div>
+  </div>
+</div>
+<br/>
+</template>
+
+
+<template name="beers">
+<div class="container span12">
+  <div class="accordion" id="accordion1">
+    {{#each beers}}
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <div class="accordion-toggle row-fluid collapsed" data-toggle="collapse"
+        data-parent="#accordion1" href="#collapse{{_id}}">
+          <div class="span2" style="vertical-align: middle;">
+            <div class="btn btn-small vote-up" style="vertical-align: middle;">
+              <i class="icon-large icon-thumbs-up"></i>
+            </div>
+            {{ votes }}
+            <div class="btn btn-small vote-down" style="vertical-align: middle;">
+              <i class="icon-large icon-thumbs-down"></i>
+            </div>
+          </div>
+          <div class="span5" style="vertical-align: middle;">
+            {{name}}
+          </div>
+          <div class="span4" style="vertical-align: middle;">
+            {{brewery}}
+          </div>
+          <div class="span1" style="vertical-align: middle;">
+            <input type="button" class="btn btn-small btn-danger remove"
+            style="vertical-align: middle;" value="x"/>
+          </div>
+        </div>
+      </div>
+      <div id="collapse{{_id}}" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <div class="row-fluid">
+            <div class="span4">
+              Added: {{humanize created}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+    <div class="row-fluid">
+      <div class="span2">
+
+      </div>
+      <div class="span5">
+        <input type="text" name="name" placeholder="Name"/>
+      </div>
+      <div class="span4">
+        <input type="text" name="brewery" placeholder="Brewery"/>
+      </div>
+      <div class="span1">
+        <input type="button" class="btn btn-small btn-primary add" value="+"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+</template>

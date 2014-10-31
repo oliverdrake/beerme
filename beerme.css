@@ -1,0 +1,46 @@
+/* CSS declarations go here */
+/*.icon-large {
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  line-height: 28px;
+  background-repeat: no-repeat;
+}*/
+
+/*[class^="span"] { background-color: rgba(255, 0, 0, 0.3); }
+[class^="row"] { background-color: rgba(255, 255, 0, 0.3); }
+*/
+
+#main {
+  padding-top: 2em;
+}
+
+#side-pane {
+    width: 150px;
+    right: auto;
+    overflow: auto;
+    /*background: #eee;*/
+    /*border-right: 1px solid #999;*/
+}
+
+.selected {
+    /*padding: 2px 6px;
+    background: #9be;
+    font-weight: bold;*/
+
+    background-color:#eee;
+    border: 1px solid #888;
+    border-radius:3px;
+}
+
+#createbar input {
+    width: 90%;
+}
+
+/*.container {
+  outline: 1px solid black;
+}*/
+
+.row-fluid {
+  width: auto;
+}
