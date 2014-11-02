@@ -15,6 +15,9 @@
   padding-top: 6em;
 }
 
+.accordian_collapse_link {
+  color: inherit;
+}
 
 .selected {
     /*padding: 2px 6px;

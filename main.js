@@ -28,52 +28,55 @@ if (Meteor.isClient) {
    */
   Template.beers.beers = function () {
     var beers = [];
-    // var current_establishment = get_current_establishment();
     if (this._id){
       beers = Beers.find(
-        {"place": this._id},
+        {"places": {$in: [this._id]}},
         {sort: {rank: "desc"}}).fetch();
     }
     return beers;
   };
 
   Template.beers.humanize = function (timestamp){
-    var time = new moment(timestamp);
-    return time.fromNow();
+    // var time = new moment(timestamp);
+    return "???";
   };
 
   Template.beers.events({
     'click .add' : function () {
       var name = $("input[name='name']").val();
       var brewery = $("input[name='brewery']").val();
-      var beer = Beers.findOne({"name": name, "brewery": brewery});
-      // var current_establishment = get_current_establishment();
-      if (this._id) {
-        if (!beer){
-          beer = {
-            "name": name,
-            "brewery": brewery,
-            "place": this._id,
-            "up_votes": 0,
-            "down_votes": 0}
-          beer._id = Beers.insert(beer);
-        }
-        Establishments.update(
-          {_id: this._id},
-          {$push: {beers: beer._id}});
-      }
-      else {
-        console.log("Warning: no current establishment");
-      }
+      Meteor.call('addBeer', name, brewery, this._id);
+
+      // var beer = Beers.findOne({"name": name, "brewery": brewery});
+      // // var current_establishment = get_current_establishment();
+      // if (this._id) {
+      //   if (!beer){
+      //     beer = {
+      //       "name": name,
+      //       "brewery": brewery,
+      //       "place": this._id,
+      //       "up_votes": 0,
+      //       "down_votes": 0}
+      //     // beer._id = Beers.insert(beer);
+      //   }
+      //   Establishments.update(
+      //     {_id: this._id},
+      //     {$push: {beers: beer._id}});
+      // }
+      // else {
+      //   console.log("Warning: no current establishment");
+      // }
     },
     'click .remove' : function () {
       Beers.remove(this._id);
     },
-    'click .vote-up' : function () {
+    'click .vote-up' : function (e) {
       Beers.update(this._id, {$inc: {"up_votes": 1}});
+      e.stopPropagation();
     },
-    'click .vote-down' : function () {
-      Beers.update(this._id, {$inc: {"up_votes": -1}});
+    'click .vote-down' : function (e) {
+      Beers.update(this._id, {$inc: {"down_votes": 1}});
+      e.stopPropagation();
     },
   });
   /* End of beers list */
@@ -97,19 +100,19 @@ if (Meteor.isServer) {
 
   Meteor.publish("beers", function () {
     var handle = Beers.find().observeChanges({
-      added: function (id) {
-        // Add the created timestamp field if needed
-        // ToDo: make this more efficient!
-        var date = new Date();
-        Beers.update(
-          {_id: id, created: {$exists: false}},
-          {$set: {created: date.getTime()}},
-          function (err) {
-            if (err){
-              console.log(err);
-            }
-          });
-      },
+      // added: function (id) {
+      //   // Add the created timestamp field if needed
+      //   // ToDo: make this more efficient!
+      //   var date = new Date();
+      //   Beers.update(
+      //     {_id: id, created: {$exists: false}},
+      //     {$set: {created: date.getTime()}},
+      //     function (err) {
+      //       if (err){
+      //         console.log(err);
+      //       }
+      //     });
+      // },
       changed: function (id, fields) {
         // Update the rank of this beer
         beer = Beers.findOne({_id: id});
