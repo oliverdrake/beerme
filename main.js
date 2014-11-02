@@ -28,10 +28,10 @@ if (Meteor.isClient) {
    */
   Template.beers.beers = function () {
     var beers = [];
-    var current_establishment = get_current_establishment();
-    if (current_establishment){
+    // var current_establishment = get_current_establishment();
+    if (this._id){
       beers = Beers.find(
-        {_id: {$in: current_establishment.beers}},
+        {"place": this._id},
         {sort: {rank: "desc"}}).fetch();
     }
     return beers;
@@ -47,19 +47,23 @@ if (Meteor.isClient) {
       var name = $("input[name='name']").val();
       var brewery = $("input[name='brewery']").val();
       var beer = Beers.findOne({"name": name, "brewery": brewery});
-      var current_establishment = get_current_establishment();
-      if (current_establishment) {
+      // var current_establishment = get_current_establishment();
+      if (this._id) {
         if (!beer){
           beer = {
             "name": name,
             "brewery": brewery,
+            "place": this._id,
             "up_votes": 0,
             "down_votes": 0}
           beer._id = Beers.insert(beer);
         }
         Establishments.update(
-          {_id: current_establishment._id},
+          {_id: this._id},
           {$push: {beers: beer._id}});
+      }
+      else {
+        console.log("Warning: no current establishment");
       }
     },
     'click .remove' : function () {

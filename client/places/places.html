@@ -1,20 +1,19 @@
 <template name="places">
   <div class="container-fluid" style="width: 50%;">
     {{#each establishments}}
-    <div class="row-fluid {{selected}} establishment clearfix" style="">
+    <div class="row-fluid" style="">
       <div class="input-append">
-
-        <!-- <label for="remove_{{_id}}" class="col-sm-11 control-label" style="vertical-align: middle;">{{name}}</label> -->
-        <div class="col-sm-11">{{name}}</div>
+        <div class="col-sm-11"><a href="place/{{_id}}">{{name}}</a></div>
         <input type="button" class="btn btn-sm btn-danger remove"
-        style="vertical-align: middle;" value="x" id="remove_{{_id}}"/>
+        style="vertical-align: middle;" value="x" id="remove_{{_id._str}}"/>
       </div>
     </div>
     {{/each}}
 
     <div class="row-fluid" style="width: auto;">
       <div class="input-append">
-        <input type="text" name="bar" class="col-sm-11" placeholder="Bar, brewery, bottlestore, etc..." value=""/>
+        <input type="text" name="bar" class="col-sm-11"
+            placeholder="Bar, brewery, bottlestore, etc..."/>
         <input type="button" class="btn btn-primary add" value="+"/>
       </div>
     </div>

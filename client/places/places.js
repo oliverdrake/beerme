@@ -5,9 +5,9 @@ Template.places.establishments = function () {
   return Establishments.find().fetch();
 };
 
-Template.places.selected = function () {
-  return Session.equals('selected_establishment_id', this._id) ? 'selected' : '';
-};
+// Template.places.selected = function () {
+//   return Session.equals('selected_establishment_id', this._id) ? 'selected' : '';
+// };
 
 Template.places.events({
   'click .add' : function () {
