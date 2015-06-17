@@ -1,24 +1,36 @@
+Beers = new Meteor.Collection("beers");
+
+function hot(ups, downs, timestamp_ms) {
+  // Algorithm borrowed from reddit
+  // http://amix.dk/blog/post/19588
+  var score = ups - downs;
+  var order = Math.log(Math.max(Math.abs(score), 1), 10);
+  var sign = score?score<0?-1:1:0
+  var seconds = timestamp_ms * 1000;
+  return order + sign * seconds / 45000;
+}
+
+Meteor.publish("beers", function () {
+  var handle = Beers.find().observeChanges({
+    changed: function (id, fields) {
+      // Update the rank of this beer
+      beer = Beers.findOne({_id: id});
+      Beers.update(
+        {_id: id},
+        {$set: {rank: hot(beer.up_votes, beer.down_votes, beer.created)}},
+        function (err) {
+          if (err){
+            console.log(err);
+          }
+        });
+    }
+  });
+  return Beers.find();
+});
+
+
 Meteor.methods({
-  addBeer: function(name, brewery, place_id) {
-    beer = Beers.findOne({"name": name, "brewery": brewery});
-    if (!place_id) {
-      console.log("Error: no place_id");
-      return null;
-    }
-    if (!beer){
-      Beers.insert({
-        "name": name,
-        "brewery": brewery,
-        "places": [place_id],
-        "up_votes": 0,
-        "down_votes": 0,
-        "created": new Date().getTime()});
-      console.log("Creating", name, brewery, place_id);
-    }
-    else {
-      console.log("Adding", name, brewery, place_id);
-      Beers.update({_id: beer._id}, {$push: {places: place_id}});
-    }
-    return beer;
+  addBeer: function(rawData, templateData) {
+    console.log("Skipping addBeer() server side");
   }
 })

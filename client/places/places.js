@@ -1,29 +1,25 @@
 /*
- * Establishments (bar, brewpub, bottlestore) list
+ * Places (bar, brewpub, bottlestore) list
  */
-Template.places.establishments = function () {
-  return Establishments.find().fetch();
-};
+Places = new Meteor.Collection("places");
+Meteor.subscribe("places");
 
-// Template.places.selected = function () {
-//   return Session.equals('selected_establishment_id', this._id) ? 'selected' : '';
-// };
+Template.places.places = function () {
+  return Places.find().fetch();
+};
 
 Template.places.events({
   'click .add' : function () {
     var name = $("input[name='bar']").val();
-    if (!Establishments.findOne({"name": name})){
-      Establishments.insert({
+    if (!Places.findOne({"name": name})){
+      Places.insert({
         "name": name,
         "beers": [],
       })
     }
   },
   'click .remove' : function () {
-    Establishments.remove(this._id);
-  },
-  'click .establishment' : function () {
-    Session.set('selected_establishment_id', this._id);
+    Places.remove(this._id);
   }
 });
-/* End of establishments */
+/* End of places */

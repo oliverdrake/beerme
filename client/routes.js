@@ -4,11 +4,7 @@ Router.map(function() {
     template: 'place',
     layoutTemplate: 'layout',
     data: function() {
-
-      return Establishments.findOne(this.params._id);
-    },
-    onAfterAction: function() {
-      Session.set('current_establishment_id', this.params._id);
+      return Places.findOne(this.params._id);
     }
     });
   // this.route('places', {path: "places", layoutTemplate: 'layout'});

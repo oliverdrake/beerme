@@ -1,13 +1,17 @@
 <template name="place">
-  <h3>{{name}}</h3>
-  {{> beers}}
+  <div class="container col-lg-6 centered">
+    <h3>{{name}}</h3>
+    {{> beers}}
+  </div>
 </template>
 
 <template name="beers">
 
-  <div class="panel-group" id="accordion">
-    {{#each beers}}
-     <div class="panel panel-default">
+
+  <div class="row-fluid">
+    <div class="panel-group" id="accordion">
+      {{#each beers}}
+       <div class="panel panel-default">
          <div class="panel-heading">
            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}" class="accordian_collapse_link">
            <div class="row">
@@ -38,69 +42,43 @@
                  <p>Added: {{humanize created}}</p>
              </div>
          </div>
-     </div>
-     {{/each}}
-   </div>
-
-
-  <div class="container col-sm-12">
-    <div class="accordion" id="accordion1">
-      <!-- {{#each beers}}
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <div class="accordion-toggle row-fluid collapsed" data-toggle="collapse"
-          data-parent="#accordion1" href="#collapse{{_id}}">
-            <div class="col-sm-2" style="vertical-align: middle;">
-              <div class="btn btn-small vote-up" style="vertical-align: middle;">
-                <span class="glyphicon glyphicon-hand-up"></span>
-              </div>
-              {{ votes }}
-              <div class="btn btn-small vote-down" style="vertical-align: middle;">
-                <span class="glyphicon glyphicon-hand-down"></span>
-              </div>
-            </div>
-            <div class="col-sm-5" style="vertical-align: middle;">
-              {{name}}
-            </div>
-            <div class="col-sm-4" style="vertical-align: middle;">
-              {{brewery}}
-            </div>
-            <div class="col-sm-1" style="vertical-align: middle;">
-              <input type="button" class="btn btn-small btn-danger remove"
-              style="vertical-align: middle;" value="x"/>
-            </div>
-          </div>
-        </div>
-        <div id="collapse{{_id}}" class="accordion-body collapse" style="height: 0px;">
-          <div class="accordion-inner">
-            <div class="row-fluid">
-              <div class="span4">
-                Added: {{humanize created}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/each}} -->
-      <div class="row-fluid">
-        <div class="span2">
-
-        </div>
-        <div class="span5">
-          <input type="text" name="name" placeholder="Name"/>
-        </div>
-        <div class="span4">
-          <input type="text" name="brewery" placeholder="Brewery"/>
-        </div>
-        <div class="span1">
-          <input type="button" class="btn btn-small btn-primary add" value="+"/>
-        </div>
-      </div>
+       </div>
+       {{/each}}
     </div>
   </div>
 
+  {{#autoForm collection=beerCollection id="insertBeerForm" type="insert"}}
+    <fieldset>
+      <legend>Add a Beer</legend>
+      {{> afQuickField name='name'}}
+      {{> afQuickField name='brewery'}}
+      <input type="hidden" name="placeId" data-schema-key="placeId" class="form-control" value="{{_id}}">
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Add</button>
+  {{/autoForm}}
+
+  <!-- <div class="row-fluid">
+    <form name="beerForm">
+      <div class="form-group">
+        <input type="hidden" value="{{_id}}" name="placeId">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" name="name" placeholder="Name"/>
+        <span id='name-error'></span>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" name="brewery" placeholder="Brewery"/>
+        <span id='brewery-error'></span>
+      </div>
+      <input type="submit" class="btn btn-small btn-primary add" value="Add"/>
+    </form>
+  </div> -->
+
+</template>
+
+<template name="insertBeerForm">
 
 
 
-
+  <!-- {{> quickForm collection=beerCollection id="insertBookForm" type="insert" }} -->
 </template>
